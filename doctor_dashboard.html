@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="doctor_dashboard.css">
+</head>
+<body>
+
+    <header class="top-header">
+        <a href="connected pages(index).html" class="dashboard-link">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="#" class="dashboard-link">
+            <i class="fas fa-phone"></i>
+            <span>Help</span>
+        </a>
+    </header>
+
+    <div class="bg-image"></div>
+    <div class="overlay"></div>
+
+    <h1 class="glowing-heading top-heading" id="welcome-heading">Welcome Doctor!</h1>
+
+    <div class="main-container">
+        <div class="dashboard-options">
+            <div class="glass-card">
+                <a href="#" class="card-link-content">
+                    <img src="file:///C:/Users/SRAVANIKA/Downloads/pp1.jpg" alt="View Patients" class="card-image">
+                    <span class="card-option-text">View Patients</span>
+                </a>
+            </div>
+            <div class="glass-card">
+                <a href="#" class="card-link-content">
+                    <img src="file:///C:/Users/SRAVANIKA/Downloads/pp.jpg" alt="View Appointments" class="card-image">
+                    <span class="card-option-text">View Appointments</span>
+                </a>
+            </div>
+            <div class="glass-card">
+                <a href="#" class="card-link-content">
+                    <img src="file:///C:/Users/SRAVANIKA/Downloads/p1.jpg" alt="Prescribe Medication" class="card-image">
+                    <span class="card-option-text">Prescribe Medication</span>
+                </a>
+            </div>
+            <div class="glass-card">
+                <a href="#" class="card-link-content">
+                    <img src="file:///C:/Users/SRAVANIKA/Downloads/ppp.jpg" alt="Merge" class="card-image">
+                    <span class="card-option-text">Merge</span>
+                </a>
+            </div>
+            <div class="glass-card">
+                <a href="#" class="card-link-content">
+                    <img src="file:///C:/Users/SRAVANIKA/Downloads/log1.jpg" alt="Logout" class="card-image">
+                    <span class="card-option-text logout">Logout</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const doctorName = localStorage.getItem('doctorName');
+            const welcomeHeading = document.getElementById('welcome-heading');
+
+            if (doctorName) {
+                welcomeHeading.textContent = `Welcome DR. ${doctorName}!`;
+            }
+        });
+    </script>
+
+</body>
+</html>

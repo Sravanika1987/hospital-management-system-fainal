@@ -1,0 +1,257 @@
+/* General Styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    color: #f0f0f0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column; /* Changed to column to accommodate header and top heading */
+    justify-content: flex-start; /* Align content from top */
+    align-items: center;
+    text-align: center;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
+.bg-image {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('file:///C:/Users/SRAVANIKA/Downloads/re2.jpg'); /* Updated background image */
+    background-size: cover;
+    background-position: center;
+    filter: blur(5px);
+    z-index: -2;
+}
+
+.overlay {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 10, 20, 0.5);
+    z-index: -1;
+}
+
+.top-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 15px 30px;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.dashboard-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.1em;
+    font-weight: 500;
+    text-shadow: 0 0 8px rgba(0, 0, 0, 0.7);
+    transition: all 0.3s ease;
+}
+
+.dashboard-link:hover {
+    color: #00e6e6;
+    text-shadow: 0 0 12px #00e6e6;
+    transform: scale(1.05);
+}
+
+.glowing-heading {
+    font-weight: 600;
+    color: #fff;
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #00e6e6, 0 0 30px #00e6e6, 0 0 40px #00e6e6;
+    text-align: center;
+    animation: glowing-text 3s infinite alternate;
+}
+
+.top-heading {
+    font-size: 3.5rem; /* Increased heading size */
+    margin-top: 100px; /* Space below fixed header */
+    margin-bottom: 30px; /* Decreased space above main-container to move cards up */
+}
+
+@keyframes glowing-text {
+    0% { text-shadow: 0 0 10px #fff, 0 0 20px #00e6e6, 0 0 30px #00e6e6; }
+    100% { text-shadow: 0 0 20px #fff, 0 0 30px #00e6e6, 0 0 40px #00e6e6; }
+}
+
+.main-container {
+    width: 90%;
+    max-width: 1400px; /* Increased max-width */
+    padding: 0 20px; /* Adjusted padding */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1; /* Allow main content to take available space */
+}
+
+/* Dashboard Options Container */
+.dashboard-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Adjusted minmax */
+    gap: 30px; /* Decreased gap */
+    width: 100%;
+}
+
+/* Individual Glass Cards for Options */
+.glass-card {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    padding: 50px; /* Increased padding */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+    aspect-ratio: 1 / 1; /* Make cards square */
+}
+
+.glass-card:hover {
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+    transform: translateY(-5px); /* Subtle lift effect */
+}
+
+.card-link-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    width: 100%;
+    height: 100%;
+}
+
+.card-image {
+    width: 120px; /* Increased image size */
+    height: 120px; /* Increased image size */
+    object-fit: cover;
+    border-radius: 50%; /* Make it round */
+    margin-bottom: 15px; /* Adjusted margin */
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.card-option-text {
+    color: #f0f0f0;
+    font-size: 1.6rem; /* Increased font size */
+    font-weight: 500;
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.6), 0 0 8px rgba(0, 255, 255, 0.6);
+    transition: text-shadow 0.3s ease;
+}
+
+.card-link-content:hover .card-option-text {
+    text-shadow: 0 0 8px rgba(255, 255, 255, 1), 0 0 15px rgba(0, 255, 255, 1);
+}
+
+.card-option-text.logout {
+    color: #ff8a8a;
+    text-shadow: 0 0 3px rgba(255, 138, 138, 0.6), 0 0 8px rgba(255, 100, 100, 0.6);
+}
+
+.card-link-content:hover .card-option-text.logout {
+    text-shadow: 0 0 8px rgba(255, 138, 138, 1), 0 0 15px rgba(255, 100, 100, 1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 1250px) {
+    .top-heading {
+        font-size: 3.5rem;
+        margin-top: 80px;
+        margin-bottom: 50px;
+    }
+    .dashboard-options {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 30px;
+    }
+    .glass-card {
+        padding: 40px;
+    }
+    .card-image {
+        width: 100px;
+        height: 100px;
+        margin-bottom: 15px;
+    }
+    .card-option-text {
+        font-size: 1.4rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .top-header {
+        padding: 10px 20px;
+        gap: 20px;
+    }
+    .dashboard-link {
+        font-size: 1em;
+    }
+    .top-heading {
+        font-size: 2.8rem;
+        margin-top: 60px;
+        margin-bottom: 40px;
+    }
+    .dashboard-options {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    .glass-card {
+        padding: 30px;
+    }
+    .card-image {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 10px;
+    }
+    .card-option-text {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .top-header {
+        padding: 8px 15px;
+        gap: 15px;
+    }
+    .dashboard-link {
+        font-size: 0.9em;
+    }
+    .top-heading {
+        font-size: 2.2rem;
+        margin-top: 40px;
+        margin-bottom: 30px;
+    }
+    .glass-card {
+        padding: 25px;
+    }
+    .card-image {
+        width: 60px;
+        height: 60px;
+        margin-bottom: 8px;
+    }
+    .card-option-text {
+        font-size: 1.1rem;
+    }
+}
