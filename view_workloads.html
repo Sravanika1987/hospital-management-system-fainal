@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Workloads - Admin Panel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="view_workloads.css">
+</head>
+<body>
+
+    <div class="background-image-wrapper">
+        <img src="images/work1.jpg" alt="Admin Background">
+    </div>
+    <div class="overlay"></div>
+
+    <header class="top-header">
+        <a href="admin_dashboard.html" class="header-link">
+            <i class="fas fa-arrow-left"></i>
+            <span>Back to Dashboard</span>
+        </a>
+        <a href="#" class="header-link">
+            <i class="fas fa-phone"></i>
+            <span>Help</span>
+        </a>
+    </header>
+
+    <div class="main-container">
+        <h1 class="main-title">Doctor Workloads!</h1>
+
+        <div class="workload-cards-container">
+            <!-- Category 1: Emergency -->
+            <div class="glass-card category-workload-card" id="category-1-card">
+                <h2>Category 1 (Emergency):</h2>
+                <p class="no-doctors-msg" style="display: none;">No doctors assigned.</p>
+                <table class="workload-table" data-category="1">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <!-- Category 2: Pregnant -->
+            <div class="glass-card category-workload-card" id="category-2-card">
+                <h2>Category 2 (Pregnant):</h2>
+                <p class="no-doctors-msg" style="display: none;">No doctors assigned.</p>
+                <table class="workload-table" data-category="2">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <!-- Category 3: Pediatric -->
+            <div class="glass-card category-workload-card" id="category-3-card">
+                <h2>Category 3 (Pediatric):</h2>
+                <p class="no-doctors-msg" style="display: none;">No doctors assigned.</p>
+                <table class="workload-table" data-category="3">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <!-- Category 4: Surgery -->
+            <div class="glass-card category-workload-card" id="category-4-card">
+                <h2>Category 4 (Surgery):</h2>
+                <p class="no-doctors-msg" style="display: none;">No doctors assigned.</p>
+                <table class="workload-table" data-category="4">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <!-- Category 5: Cardiology -->
+            <div class="glass-card category-workload-card" id="category-5-card">
+                <h2>Category 5 (Cardiology):</h2>
+                <p class="no-doctors-msg" style="display: none;">No doctors assigned.</p>
+                <table class="workload-table" data-category="5">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <!-- Category 6: Pregnant (Special) -->
+            <div class="glass-card category-workload-card" id="category-6-card">
+                <h2>Category 6 (Pregnant (Special)):</h2>
+                <p class="no-doctors-msg" style="display: none;">No doctors assigned.</p>
+                <table class="workload-table" data-category="6">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <!-- Category 7: Neurology -->
+            <div class="glass-card category-workload-card" id="category-7-card">
+                <h2>Category 7 (Neurology):</h2>
+                <p class="no-doctors-msg" style="display: none;">No doctors assigned.</p>
+                <table class="workload-table" data-category="7">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <!-- Category 8: Normal -->
+            <div class="glass-card category-workload-card" id="category-8-card">
+                <h2>Category 8 (Normal):</h2>
+                <p class="no-doctors-msg" style="display: none;">No doctors assigned.</p>
+                <table class="workload-table" data-category="8">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const categories = {
+                1: 'Emergency',
+                2: 'Pregnant',
+                3: 'Pediatric',
+                4: 'Surgery',
+                5: 'Cardiology',
+                6: 'Pregnant (Special)',
+                7: 'Neurology',
+                8: 'Normal' // New category
+            };
+
+            function renderWorkloads() {
+                let allDoctors = JSON.parse(localStorage.getItem('doctors')) || [];
+                
+                // Ensure all doctors have a categoryAssignment, default to '1' if not set
+                allDoctors = allDoctors.map(doctor => {
+                    if (!doctor.categoryAssignment) {
+                        doctor.categoryAssignment = '1';
+                    }
+                    return doctor;
+                });
+                localStorage.setItem('doctors', JSON.stringify(allDoctors)); // Save updated doctors list
+
+                for (let i = 1; i <= 8; i++) { // Loop through all 8 categories
+                    const categoryCard = document.getElementById(`category-${i}-card`);
+                    const noDoctorsMsg = categoryCard.querySelector('.no-doctors-msg');
+                    const tableBody = categoryCard.querySelector('.workload-table tbody');
+                    tableBody.innerHTML = ''; // Clear previous rows
+
+                    const doctorsInCategory = allDoctors.filter(doctor => doctor.categoryAssignment === String(i));
+
+                    if (doctorsInCategory.length === 0) {
+                        noDoctorsMsg.style.display = 'block';
+                        categoryCard.querySelector('.workload-table').style.display = 'none';
+                    } else {
+                        noDoctorsMsg.style.display = 'none';
+                        categoryCard.querySelector('.workload-table').style.display = 'table';
+                        doctorsInCategory.forEach(doctor => {
+                            const row = tableBody.insertRow();
+                            row.insertCell().textContent = doctor.name;
+                            
+                            const categoryCell = row.insertCell();
+                            const categorySelect = document.createElement('select');
+                            categorySelect.classList.add('category-select');
+                            categorySelect.dataset.doctorId = doctor.id;
+                            for (let catNum = 1; catNum <= 8; catNum++) { // Loop for 8 categories in dropdown
+                                const option = document.createElement('option');
+                                option.value = catNum;
+                                option.textContent = `${catNum} (${categories[catNum]})`;
+                                categorySelect.appendChild(option);
+                            }
+                            categorySelect.value = doctor.categoryAssignment; // Set current assignment
+                            categoryCell.appendChild(categorySelect);
+
+                            const actionCell = row.insertCell();
+                            const saveButton = document.createElement('button');
+                            saveButton.classList.add('action-btn', 'save-category-btn');
+                            saveButton.textContent = 'Save';
+                            saveButton.dataset.doctorId = doctor.id;
+                            actionCell.appendChild(saveButton);
+                        });
+                    }
+                }
+            }
+
+
+            // Initial render
+            renderWorkloads();
+
+            // Event listener for saving category
+            document.querySelector('.workload-cards-container').addEventListener('click', function(event) {
+                if (event.target.classList.contains('save-category-btn')) {
+                    const doctorId = event.target.dataset.doctorId;
+                    // Find the select element that corresponds to this doctor in the *current* view
+                    const allCategorySelects = document.querySelectorAll(`.category-select[data-doctor-id="${doctorId}"]`);
+                    let newCategory;
+                    allCategorySelects.forEach(select => {
+                        // Find the select element that is currently visible and has the correct doctorId
+                        if (select.closest('.workload-table').style.display !== 'none' && select.value) {
+                             newCategory = select.value;
+                        }
+                    });
+
+                    if (!newCategory) {
+                        // Fallback if the select element wasn't easily found (e.g., if re-rendered and event.target is old)
+                        const currentSelectInDOM = event.target.closest('tr').querySelector('.category-select');
+                        if (currentSelectInDOM) newCategory = currentSelectInDOM.value;
+                    }
+
+
+                    let doctors = JSON.parse(localStorage.getItem('doctors')) || [];
+                    let doctorToUpdate = doctors.find(doc => doc.id === doctorId);
+
+                    if (doctorToUpdate) {
+                        const oldCategory = doctorToUpdate.categoryAssignment;
+                        if (oldCategory !== newCategory) { // Only send notification if category actually changed
+                            doctorToUpdate.categoryAssignment = newCategory;
+                            localStorage.setItem('doctors', JSON.stringify(doctors));
+
+                            // Create notification for the doctor
+                            let notifications = JSON.parse(localStorage.getItem('doctorNotifications')) || [];
+                            const notification = {
+                                id: Date.now(),
+                                doctorId: doctorId,
+                                message: `Your category has been changed to ${newCategory} (${categories[newCategory]}).`,
+                                read: false,
+                                timestamp: new Date().toISOString()
+                            };
+                            notifications.push(notification);
+                            localStorage.setItem('doctorNotifications', JSON.stringify(notifications));
+
+                            alert(`Doctor ${doctorToUpdate.name}'s category updated to ${newCategory} and notification sent.`);
+                            renderWorkloads(); // Re-render to reflect changes
+                        } else {
+                            alert('Category is already set to the selected value.');
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

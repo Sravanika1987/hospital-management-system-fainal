@@ -31,7 +31,7 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background-image: url('file:///C:/Users/SRAVANIKA/Downloads/admin%205.jpeg');
+            background-image: url('images/admin 5.jpeg');
             background-size: cover;
             background-position: top;
             filter: blur(5px);
@@ -198,14 +198,10 @@
     <h1>Admin Login!</h1>
 
     <div class="glass-card">
-        <form action="#">
+        <form id="login-form">
             <div class="input-group">
-                <input type="text" id="name" required>
-                <label for="name">Enter Name</label>
-            </div>
-            <div class="input-group">
-                <input type="text" id="job-id" required>
-                <label for="job-id">Enter Admin ID</label>
+                <input type="text" id="username" required>
+                <label for="username">Enter Admin ID</label>
             </div>
             <div class="input-group">
                 <input type="password" id="password" required>
@@ -214,6 +210,26 @@
             <button type="submit" class="submit-btn">Submit</button>
         </form>
     </div>
+
+    <script>
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const usernameInput = document.getElementById('username').value;
+            const passwordInput = document.getElementById('password').value;
+
+            const DEFAULT_ADMIN_USERNAME = 'A100';
+            const DEFAULT_ADMIN_PASSWORD = 'sravanika';
+
+            if (usernameInput === DEFAULT_ADMIN_USERNAME && passwordInput === DEFAULT_ADMIN_PASSWORD) {
+                // Store a flag in localStorage to indicate successful admin login
+                localStorage.setItem('isAdminLoggedIn', 'true');
+                window.location.href = 'admin_dashboard.html';
+            } else {
+                alert('Invalid Admin ID or Password. Please try again.');
+            }
+        });
+    </script>
 
 </body>
 </html>

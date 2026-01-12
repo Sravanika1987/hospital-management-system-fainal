@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submission Status</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="submission_status.css">
+</head>
+<body>
+
+    <div class="background-image-wrapper">
+        <img src="images/ppp.jpg" alt="Hospital Background">
+    </div>
+    <div class="overlay"></div>
+
+    <header class="top-header">
+        <a href="connected pages(index).html" class="header-link">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            <span>Home</span>
+        </a>
+        <a href="#" id="another-booking-btn" class="header-link">
+            <i class="fas fa-plus-circle"></i>
+            <span>Another Booking</span>
+        </a>
+        <a href="#" class="header-link">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.02.74-.25 1.02l-2.2 2.2z"/></svg>
+            <span>Contact</span>
+        </a>
+    </header>
+
+    <div class="main-container">
+        <div class="glass-message-box">
+            <h1 id="status-heading" class="glowing-heading"></h1>
+            <p id="refresh-note" class="refresh-note"></p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const statusHeading = document.getElementById('status-heading');
+            const refreshNote = document.getElementById('refresh-note');
+
+            let bookingRequests = JSON.parse(localStorage.getItem('bookingRequests')) || [];
+            console.log('All bookingRequests from localStorage (submission_status):', bookingRequests); // Debug log
+            
+            // Sort requests by ID (timestamp) to ensure we're looking at the latest ones first
+            bookingRequests.sort((a, b) => b.id - a.id);
+
+            // Find the most recent pending or accepted request
+            const latestActiveRequest = bookingRequests.find(request => request.status === 'pending' || request.status === 'accepted');
+            console.log('Latest active request found (submission_status):', latestActiveRequest); // Debug log
+
+            if (latestActiveRequest) {
+                if (latestActiveRequest.status === 'pending') {
+                    statusHeading.textContent = 'Submitted request and waiting for approval !';
+                    refreshNote.textContent = 'Refresh the page to check approval.';
+                } else if (latestActiveRequest.status === 'accepted') {
+                    // Redirect to the new approval confirmation page
+                    window.location.href = 'approval_confirmation.html';
+                }
+            } else {
+                // No active booking requests found in localStorage
+                statusHeading.textContent = 'No active booking request found.';
+                refreshNote.textContent = 'Please go to the Pre-Booking page to submit a new request.';
+            }
+
+            // Event listener for the "Another Booking" button in the header
+            document.getElementById('another-booking-btn').addEventListener('click', function(event) {
+                event.preventDefault();
+                localStorage.removeItem('bookingRequests'); // Clear all booking requests
+                window.location.href = 'patient_booking.html'; // Redirect to booking page
+            });
+        });
+    </script>
+</body>
+</html>

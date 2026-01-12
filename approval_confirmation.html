@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Confirmed</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="approval_confirmation.css">
+</head>
+<body>
+
+    <div class="background-image-wrapper">
+        <img src="images/ppp.jpg" alt="Hospital Background">
+    </div>
+    <div class="overlay"></div>
+
+    <header class="top-header">
+        <a href="connected pages(index).html" class="header-link">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            <span>Home</span>
+        </a>
+        <a href="#" id="another-booking-btn" class="header-link">
+            <i class="fas fa-plus-circle"></i>
+            <span>Another Booking</span>
+        </a>
+        <a href="#" class="header-link">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.02.74-.25 1.02l-2.2 2.2z"/></svg>
+            <span>Contact</span>
+        </a>
+    </header>
+
+    <div class="main-container">
+        <div class="glass-message-box">
+            <h1 class="glowing-heading">Booking Approved!</h1>
+            <div id="booking-details">
+                <p><strong>Patient Name:</strong> <span id="detail-name"></span></p>
+                <p><strong>Booking Date:</strong> <span id="detail-date"></span></p>
+                <p><strong>Assigned Time:</strong> <span id="detail-time"></span></p>
+                <p><strong>Assigned Slot:</strong> <span id="detail-slot"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const detailName = document.getElementById('detail-name');
+            const detailDate = document.getElementById('detail-date');
+            const detailTime = document.getElementById('detail-time');
+            const detailSlot = document.getElementById('detail-slot');
+            const anotherBookingBtn = document.getElementById('another-booking-btn');
+
+            let bookingRequests = JSON.parse(localStorage.getItem('bookingRequests')) || [];
+            bookingRequests.sort((a, b) => b.id - a.id); // Sort to get latest first
+
+            const latestAcceptedRequest = bookingRequests.find(request => request.status === 'accepted');
+
+            if (latestAcceptedRequest) {
+                detailName.textContent = latestAcceptedRequest.name;
+                detailDate.textContent = latestAcceptedRequest.date;
+                detailTime.textContent = latestAcceptedRequest.time;
+                detailSlot.textContent = latestAcceptedRequest.slot;
+            } else {
+                // If no accepted request, redirect to submission_status or home
+                window.location.href = 'submission_status.html'; 
+                // Or maybe 'connected pages(index).html' if no active pending/accepted
+            }
+
+            anotherBookingBtn.addEventListener('click', function(event) {
+                event.preventDefault();
+                // Clear the specific accepted request that is currently displayed
+                let updatedBookingRequests = bookingRequests.filter(request => request.id !== latestAcceptedRequest.id);
+                localStorage.setItem('bookingRequests', JSON.stringify(updatedBookingRequests));
+                window.location.href = 'patient_booking.html'; // Redirect to booking page
+            });
+        });
+    </script>
+
+</body>
+</html>

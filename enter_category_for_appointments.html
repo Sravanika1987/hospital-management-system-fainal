@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enter Category</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="enter_category_for_appointments.css">
+</head>
+<body>
+
+    <header class="top-header">
+        <a href="connected pages(index).html" class="dashboard-link">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="doctor_dashboard.html" class="dashboard-link">
+            <i class="fas fa-arrow-left"></i>
+            <span>Back to Dashboard</span>
+        </a>
+        <a href="#" class="dashboard-link">
+            <i class="fas fa-phone"></i>
+            <span>Help</span>
+        </a>
+    </header>
+
+    <div class="bg-image"></div>
+    <div class="overlay"></div>
+
+    <div class="form-container">
+        <h1 class="glowing-heading">Enter Patient Category</h1>
+        <div class="glass-form">
+            <div class="form-group">
+                <label for="patientCategory">Category:</label>
+                <input type="text" id="patientCategory" placeholder="e.g., General, Cardiology" required>
+            </div>
+            <button id="viewAppointmentsBtn" class="action-btn">View Appointments</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const viewAppointmentsBtn = document.getElementById('viewAppointmentsBtn');
+            const patientCategoryInput = document.getElementById('patientCategory');
+
+            viewAppointmentsBtn.addEventListener('click', function() {
+                const category = patientCategoryInput.value.trim();
+                if (category) {
+                    // Pass the category to the next page, e.g., via URL parameter
+                    window.location.href = `view_appointments_by_category.html?category=${encodeURIComponent(category)}`;
+                } else {
+                    alert('Please enter a category to view appointments.');
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

@@ -26,36 +26,62 @@
     <div class="bg-image"></div>
     <div class="overlay"></div>
 
-    <h1 class="glowing-heading top-heading">Welcome Receptionist!</h1>
+    <h1 id="welcome-heading" class="glowing-heading top-heading">Welcome Receptionist!</h1>
 
     <div class="main-container">
         <div class="dashboard-options">
-            <div class="glass-card">
-                <a href="#" class="card-link-content">
-                    <img src="file:///C:/Users/SRAVANIKA/Downloads/c1.jpg" alt="Add Patient" class="card-image">
+            <a href="add_patient.html" class="glass-card">
+                <div class="card-link-content">
+                    <img src="images/c1.jpg" alt="Add Patient" class="card-image">
                     <span class="card-option-text">Add Patient</span>
-                </a>
-            </div>
+                </div>
+            </a>
             <div class="glass-card">
-                <a href="#" class="card-link-content">
-                    <img src="file:///C:/Users/SRAVANIKA/Downloads/d1.jpg" alt="View Available Doctors" class="card-image">
+                <div class="card-link-content">
+                    <img src="images/d1.jpg" alt="View Available Doctors" class="card-image">
                     <span class="card-option-text">View Available Doctors</span>
-                </a>
+                </div>
             </div>
-            <div class="glass-card">
-                <a href="#" class="card-link-content">
-                    <img src="file:///C:/Users/SRAVANIKA/Downloads/pp1.jpg" alt="View Patients" class="card-image">
+            <a href="booking_requests.html" class="glass-card">
+                <div class="card-link-content">
+                    <img src="images/d1.jpg" alt="Booking Requests" class="card-image">
+                    <span class="card-option-text">Booking Requests</span>
+                </div>
+            </a>
+            <a href="view_patients.html" class="glass-card">
+                <div class="card-link-content">
+                    <img src="images/pp1.jpg" alt="View Patients" class="card-image">
                     <span class="card-option-text">View Patients</span>
-                </a>
-            </div>
-            <div class="glass-card">
-                <a href="#" class="card-link-content">
-                    <img src="file:///C:/Users/SRAVANIKA/Downloads/log1.jpg" alt="Logout" class="card-image">
+                </div>
+            </a>
+
+            <div id="logout-btn" class="glass-card">
+                <div class="card-link-content">
+                    <img src="images/log1.jpg" alt="Logout" class="card-image">
                     <span class="card-option-text logout">Logout</span>
-                </a>
+                </div>
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Personalize Welcome Message
+            const user = JSON.parse(localStorage.getItem('user'));
+            const welcomeHeading = document.getElementById('welcome-heading');
+            if (user && user.name) {
+                welcomeHeading.textContent = `Hi, ${user.name}!`;
+            }
+
+            // Logout functionality
+            const logoutBtn = document.getElementById('logout-btn');
+            logoutBtn.onclick = function() {
+                localStorage.removeItem('user');
+                localStorage.removeItem('doctorName'); // Also clear doctorName just in case
+                window.location.href = 'staff_login.html';
+            }
+        });
+    </script>
 
 </body>
 </html>

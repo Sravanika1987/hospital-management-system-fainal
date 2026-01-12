@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prescribe Medication by Category</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="prescribe_medication_by_category.css">
+</head>
+<body>
+
+    <header class="top-header">
+        <a href="connected pages(index).html" class="dashboard-link">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="enter_category_for_medication.html" class="dashboard-link">
+            <i class="fas fa-arrow-left"></i>
+            <span>Back to Category Input</span>
+        </a>
+        <a href="#" class="dashboard-link">
+            <i class="fas fa-phone"></i>
+            <span>Help</span>
+        </a>
+    </header>
+
+    <div class="bg-image"></div>
+    <div class="overlay"></div>
+
+    <h1 id="page-heading" class="glowing-heading top-heading">Prescribe Medication for Category: <span id="category-display"></span></h1>
+
+    <div class="glass-table-container">
+        <div class="glass-table">
+            <p id="no-patients-message" style="display: none;">No patients found for this category!</p>
+            <table id="patients-table" style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Problem</th>
+                        <th>Medication</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Patient rows will be inserted here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Medication Modal -->
+    <div id="medicationModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Prescribe Medication for <span id="patientNameInModal"></span></h2>
+            <form id="medicationForm">
+                <div class="form-group">
+                    <label for="medicationDetails">Medication Details:</label>
+                    <textarea id="medicationDetails" rows="5" placeholder="e.g., Paracetamol 500mg - 1 tablet, 3 times a day for 5 days"></textarea>
+                </div>
+                <button type="submit" id="saveMedicationBtn" class="action-btn">Save Medication</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const noPatientsMessage = document.getElementById('no-patients-message');
+            const patientsTable = document.getElementById('patients-table');
+            const tableBody = patientsTable.querySelector('tbody');
+            const categoryDisplay = document.getElementById('category-display');
+
+            const medicationModal = document.getElementById('medicationModal');
+            const closeSpan = medicationModal.querySelector('.close');
+            const patientNameInModal = document.getElementById('patientNameInModal');
+            const medicationDetailsTextarea = document.getElementById('medicationDetails');
+            const saveMedicationBtn = document.getElementById('saveMedicationBtn');
+
+            let currentPatientId = null;
+
+            // Get category from URL parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            const requestedCategory = urlParams.get('category');
+
+            if (requestedCategory) {
+                categoryDisplay.textContent = decodeURIComponent(requestedCategory);
+            } else {
+                categoryDisplay.textContent = 'N/A';
+                noPatientsMessage.textContent = 'No category specified.';
+                noPatientsMessage.style.display = 'block';
+                patientsTable.style.display = 'none';
+                return; // Exit if no category is provided
+            }
+
+            function renderPatients() {
+                let allPatients = JSON.parse(localStorage.getItem('patients')) || [];
+                let filteredPatients = allPatients.filter(patient => 
+                    patient.category && patient.category.toLowerCase() === requestedCategory.toLowerCase()
+                );
+
+                tableBody.innerHTML = ''; // Clear existing rows
+
+                if (filteredPatients.length === 0) {
+                    noPatientsMessage.style.display = 'block';
+                    patientsTable.style.display = 'none';
+                } else {
+                    noPatientsMessage.style.display = 'none';
+                    patientsTable.style.display = 'table';
+                    filteredPatients.forEach(patient => {
+                        const row = tableBody.insertRow();
+                        row.insertCell().textContent = patient.id;
+                        row.insertCell().textContent = patient.name;
+                        row.insertCell().textContent = patient.age;
+                        row.insertCell().textContent = patient.problem;
+                        
+                        const medicationCell = row.insertCell();
+                        medicationCell.textContent = patient.medication || 'No medication prescribed';
+                        
+                        const actionCell = row.insertCell();
+                        const prescribeButton = document.createElement('button');
+                        prescribeButton.textContent = patient.medication ? 'Edit Medication' : 'Add Medication';
+                        prescribeButton.classList.add('action-btn');
+                        prescribeButton.classList.add(patient.medication ? 'medication-added' : 'medication-pending');
+                        prescribeButton.dataset.patientId = patient.id;
+                        actionCell.appendChild(prescribeButton);
+                    });
+                }
+            }
+
+            // Initial render
+            renderPatients();
+
+            // Event listener for Add/Edit Medication buttons
+            patientsTable.addEventListener('click', function(event) {
+                if (event.target.classList.contains('action-btn')) {
+                    currentPatientId = parseInt(event.target.dataset.patientId);
+                    let allPatients = JSON.parse(localStorage.getItem('patients')) || [];
+                    const patient = allPatients.find(p => p.id === currentPatientId);
+
+                    if (patient) {
+                        patientNameInModal.textContent = patient.name;
+                        medicationDetailsTextarea.value = patient.medication || ''; // Pre-fill if exists
+                        medicationModal.style.display = 'block';
+                    }
+                }
+            });
+
+            // Close modal events
+            closeSpan.onclick = function() {
+                medicationModal.style.display = 'none';
+            }
+
+            window.onclick = function(event) {
+                if (event.target == medicationModal) {
+                    medicationModal.style.display = 'none';
+                }
+            }
+
+            // Save Medication
+            saveMedicationBtn.addEventListener('click', function(event) {
+                event.preventDefault(); // Prevent form submission
+                if (!medicationDetailsTextarea.value.trim()) {
+                    alert('Please enter medication details.');
+                    return;
+                }
+
+                let allPatients = JSON.parse(localStorage.getItem('patients')) || [];
+                const patientIndex = allPatients.findIndex(p => p.id === currentPatientId);
+
+                if (patientIndex > -1) {
+                    allPatients[patientIndex].medication = medicationDetailsTextarea.value.trim();
+                    localStorage.setItem('patients', JSON.stringify(allPatients));
+                    medicationModal.style.display = 'none';
+                    renderPatients(); // Re-render table to update medication status and button color
+                }
+            });
+        });
+    </script>
+</body>
+</html>

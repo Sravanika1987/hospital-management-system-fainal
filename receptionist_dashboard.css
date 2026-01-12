@@ -23,7 +23,7 @@ body {
     top: 0;
     width: 100%;
     height: 100%;
-    background-image: url('file:///C:/Users/SRAVANIKA/Downloads/re2.jpg'); /* Updated background image */
+    background-image: url('images/re2.jpg'); /* Updated background image */
     background-size: cover;
     background-position: center;
     filter: blur(5px);
@@ -106,26 +106,27 @@ body {
 /* Dashboard Options Container */
 .dashboard-options {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Adjusted minmax */
-    gap: 30px; /* Decreased gap */
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Adjusted minmax for smaller cards and more in a row */
+    gap: 15px; /* Reduced gap */
     width: 100%;
 }
 
 /* Individual Glass Cards for Options */
 .glass-card {
     background: rgba(255, 255, 255, 0.1);
-    border-radius: 15px;
+    border-radius: 15px; /* Default for all cards */
     border: 1px solid rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-    padding: 50px; /* Increased padding */
+    padding: 25px; /* Reduced padding */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     transition: all 0.3s ease;
-    aspect-ratio: 1 / 1; /* Make cards square */
+    aspect-ratio: 1 / 1; /* Make cards square by default */
+    cursor: pointer;
 }
 
 .glass-card:hover {
@@ -146,18 +147,30 @@ body {
 }
 
 .card-image {
-    width: 120px; /* Increased image size */
-    height: 120px; /* Increased image size */
+    width: 90px; /* Increased image size */
+    height: 90px; /* Increased image size */
     object-fit: cover;
     border-radius: 50%; /* Make it round */
-    margin-bottom: 15px; /* Adjusted margin */
+    margin-bottom: 10px; /* Adjusted margin */
     border: 3px solid rgba(255, 255, 255, 0.3);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
+.card-icon {
+    font-size: 3em; /* Increased icon size */
+    color: #fff;
+    margin-bottom: 10px;
+    text-shadow: 0 0 5px rgba(0, 255, 255, 0.7), 0 0 10px rgba(0, 255, 255, 0.7);
+    transition: text-shadow 0.3s ease;
+}
+
+.glass-card:hover .card-icon {
+    text-shadow: 0 0 10px rgba(0, 255, 255, 1), 0 0 20px rgba(0, 255, 255, 1);
+}
+
 .card-option-text {
     color: #f0f0f0;
-    font-size: 1.6rem; /* Increased font size */
+    font-size: 1.1rem; /* Reduced font size */
     font-weight: 500;
     text-shadow: 0 0 3px rgba(255, 255, 255, 0.6), 0 0 8px rgba(0, 255, 255, 0.6);
     transition: text-shadow 0.3s ease;
@@ -254,4 +267,118 @@ body {
     .card-option-text {
         font-size: 1.1rem;
     }
+}
+
+/* Modal Styles */
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 2000; 
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; 
+    background-color: rgba(0,0,0,0.6);
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background-color: rgba(0, 0, 0, 0.4);
+    margin: 10% auto;
+    padding: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 15px;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0 0 25px #00e6e6, 0 0 40px #00e6e6;
+    animation: glow-modal 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes glow-modal {
+    from {
+        box-shadow: 0 0 15px #00e6e6, 0 0 25px #00e6e6;
+    }
+    to {
+        box-shadow: 0 0 25px #00e6e6, 0 0 40px #00b3b3;
+    }
+}
+
+.close-btn {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Form Group styles from patient_booking.html for consistency */
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #eee;
+    text-align: left;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-size: 1em;
+    font-family: 'Poppins', sans-serif;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #00e6e6;
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.radio-group {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    padding-top: 5px;
+    text-align: left;
+}
+
+.radio-group label {
+    font-weight: 400;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(to right, #00b3b3, #00e6e6);
+    color: #000;
+    font-size: 1.2em;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 15px;
+}
+
+.submit-btn:hover {
+    box-shadow: 0 0 20px #00e6e6;
 }

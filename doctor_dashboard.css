@@ -23,7 +23,7 @@ body {
     top: 0;
     width: 100%;
     height: 100%;
-    background-image: url('file:///C:/Users/SRAVANIKA/Downloads/patient%201.jpeg');
+    background-image: url('images/patient 1.jpeg');
     background-size: cover;
     background-position: center;
     filter: blur(5px);
@@ -106,7 +106,7 @@ body {
 /* Dashboard Options Container */
 .dashboard-options {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr); /* Adjusted for 4 cards */
     gap: 20px;
     width: 100%;
 }
@@ -217,4 +217,129 @@ body {
     .card-option-text {
         font-size: 1.1rem;
     }
+}
+
+/* Notification button styling */
+#notification-btn {
+    position: relative;
+    padding-right: 25px; /* Space for count */
+}
+
+#notification-count {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: #ff4d4d;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 0.7em;
+    line-height: 1;
+}
+
+/* Modal Styles - Reusing common modal structure */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1001; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    display: flex; /* Use flexbox for centering */
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: rgba(0, 0, 0, 0.7);
+    margin: auto; /* Center modal vertically and horizontally */
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    width: 80%;
+    max-width: 600px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 255, 255, 0.5);
+    color: #fff;
+    text-align: center;
+    animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-content h2 {
+    margin-top: 0;
+    color: #00e6e6;
+    text-shadow: 0 0 5px #00e6e6;
+}
+
+#notification-list {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+    text-align: left;
+    padding-right: 10px;
+}
+
+.notification-item {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.notification-item.unread {
+    border-left: 5px solid #00e6e6;
+    background-color: rgba(0, 230, 230, 0.1);
+}
+
+.notification-item p {
+    margin: 0;
+    font-size: 1.1em;
+    color: #eee;
+}
+
+.notification-item small {
+    color: #bbb;
+    font-size: 0.8em;
+}
+
+#clear-notifications-btn {
+    background-color: #00b3b3;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-size: 1em;
+}
+
+#clear-notifications-btn:hover {
+    background-color: #00e6e6;
+    transform: scale(1.05);
 }

@@ -181,18 +181,18 @@
 <body>
 
     <div class="background-image-wrapper">
-        <img src="file:///C:/Users/SRAVANIKA/Documents/ppp.jpg" alt="Hospital Background">
+        <img src="images/ppp.jpg" alt="Hospital Background">
     </div>
     <div class="overlay"></div>
 
     <header class="top-header">
-        <a href="#" class="header-link">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
-            <span>Dashboard</span>
-        </a>
         <a href="connected pages(index).html" class="header-link">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
             <span>Home</span>
+        </a>
+        <a href="#" id="another-booking-btn" class="header-link">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            <span>Another Booking</span>
         </a>
         <a href="#" class="header-link">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.02.74-.25 1.02l-2.2 2.2z"/></svg>
@@ -208,7 +208,7 @@
         <h1 class="main-title">Pre-Booking!</h1>
 
         <div class="booking-form-container">
-            <form>
+            <form id="booking-form">
                 <div class="form-group">
                     <label for="name">Patient Name</label>
                     <input type="text" id="name" name="name" required>
@@ -224,7 +224,7 @@
                 <div class="form-group">
                     <label>Gender</label>
                     <div class="radio-group">
-                        <label for="male"><input type="radio" id="male" name="gender" value="male"> Male</label>
+                        <label for="male"><input type="radio" id="male" name="gender" value="male" checked> Male</label>
                         <label for="female"><input type="radio" id="female" name="gender" value="female"> Female</label>
                         <label for="other"><input type="radio" id="other" name="gender" value="other"> Other</label>
                     </div>
@@ -252,6 +252,58 @@
             </form>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const bookingRequests = JSON.parse(localStorage.getItem('bookingRequests')) || [];
+            bookingRequests.sort((a, b) => b.id - a.id); // Sort to get latest first
+
+            const latestActiveRequest = bookingRequests.find(request => request.status === 'pending' || request.status === 'accepted');
+
+            if (latestActiveRequest) {
+                if (latestActiveRequest.status === 'pending') {
+                    window.location.href = 'submission_status.html';
+                    return;
+                } else if (latestActiveRequest.status === 'accepted') {
+                    window.location.href = 'approval_confirmation.html';
+                    return;
+                }
+            }
+
+            document.getElementById('booking-form').addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                const form = event.target;
+                const bookingRequest = {
+                    id: Date.now(), // Unique ID for the booking request
+                    name: form.name.value,
+                    age: form.age.value,
+                    phone: form.phone.value,
+                    gender: form.gender.value,
+                    address: form.address.value,
+                    date: form.date.value,
+                    problem: form.problem.value,
+                    visited: form.visited.value,
+                    status: 'pending' // New status for booking requests
+                };
+
+                let bookingRequests = JSON.parse(localStorage.getItem('bookingRequests')) || [];
+                bookingRequests.push(bookingRequest); // Add new request without filtering old accepted ones
+                localStorage.setItem('bookingRequests', JSON.stringify(bookingRequests));
+                console.log('Booking request saved to localStorage:', bookingRequest); // Debug log
+                console.log('Current bookingRequests in localStorage:', JSON.parse(localStorage.getItem('bookingRequests'))); // Debug log
+
+                // No alert, just redirect
+                window.location.href = 'submission_status.html';
+            });
+            // Event listener for the "Another Booking" button in the header
+            document.getElementById('another-booking-btn').addEventListener('click', function(event) {
+                event.preventDefault();
+                localStorage.removeItem('bookingRequests'); // Clear all booking requests
+                window.location.href = 'patient_booking.html'; // Redirect to booking page
+            });
+        });
+    </script>
 
 </body>
 </html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Staff - Admin Panel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="add_staff.css">
+</head>
+<body>
+
+    <div class="background-image-wrapper">
+        <img src="images/im1.jpg" alt="Admin Background">
+    </div>
+    <div class="overlay"></div>
+
+    <header class="top-header">
+        <a href="admin_dashboard.html" class="header-link">
+            <i class="fas fa-arrow-left"></i>
+            <span>Back to Dashboard</span>
+        </a>
+        <a href="view_staff.html" class="header-link">
+            <i class="fas fa-users"></i>
+            <span>View Staff</span>
+        </a>
+        <a href="#" class="header-link">
+            <i class="fas fa-phone"></i>
+            <span>Help</span>
+        </a>
+    </header>
+
+    <div class="main-container">
+        <h1 class="main-title">Add New Staff!</h1>
+
+        <div class="form-container">
+            <form id="add-staff-form">
+                <div class="form-group">
+                    <label for="staffName">Staff Name</label>
+                    <input type="text" id="staffName" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="staffId">Staff ID</label>
+                    <input type="text" id="staffId" name="id" required>
+                </div>
+                <div class="form-group">
+                    <label for="staffRole">Role</label>
+                    <input type="text" id="staffRole" name="role" required>
+                </div>
+                <div class="form-group">
+                    <label for="staffAadhar">Aadhar ID</label>
+                    <input type="text" id="staffAadhar" name="aadhar" required>
+                </div>
+                <div class="form-group">
+                    <label for="staffPhone">Phone Number</label>
+                    <input type="tel" id="staffPhone" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="staffAddress">Address</label>
+                    <textarea id="staffAddress" name="address" rows="2" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Gender</label>
+                    <div class="radio-group">
+                        <label for="male"><input type="radio" id="male" name="gender" value="male" checked> Male</label>
+                        <label for="female"><input type="radio" id="female" name="gender" value="female"> Female</label>
+                        <label for="other"><input type="radio" id="other" name="gender" value="other"> Other</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="staffAge">Age</label>
+                    <input type="number" id="staffAge" name="age" required min="18">
+                </div>
+                <div class="form-group">
+                    <label for="staffPassword">Password (for Login)</label>
+                    <input type="password" id="staffPassword" name="password" required>
+                </div>
+                <button type="submit" class="submit-btn">Add Staff</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('add-staff-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const form = event.target;
+            const staff = {
+                name: form.staffName.value,
+                id: form.staffId.value,
+                role: form.staffRole.value,
+                aadhar: form.staffAadhar.value,
+                phone: form.staffPhone.value,
+                address: form.staffAddress.value,
+                gender: form.gender.value,
+                age: form.staffAge.value,
+                password: form.staffPassword.value // Store password for login
+            };
+
+            let staffList = JSON.parse(localStorage.getItem('staff')) || [];
+            staffList.push(staff);
+            localStorage.setItem('staff', JSON.stringify(staffList));
+
+            alert('Staff added successfully!');
+            form.reset(); // Clear form
+            window.location.href = 'admin_dashboard.html'; // Redirect back to dashboard
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Requests</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="booking_requests.css">
+</head>
+<body>
+
+    <header class="top-header">
+        <a href="connected pages(index).html" class="dashboard-link">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="receptionist_dashboard.html" class="dashboard-link">
+            <i class="fas fa-arrow-left"></i>
+            <span>Back to Dashboard</span>
+        </a>
+        <a href="#" class="dashboard-link">
+            <i class="fas fa-phone"></i>
+            <span>Help</span>
+        </a>
+    </header>
+
+    <div class="bg-image"></div>
+    <div class="overlay"></div>
+
+    <h1 id="page-heading" class="glowing-heading top-heading">Booking Requests!</h1>
+
+    <div class="glass-table-container">
+        <div class="glass-table">
+            <p id="no-requests-message" style="display: none;">No booking requests found!</p>
+            <table id="booking-requests-table" style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Phone</th>
+                        <th>Gender</th>
+                        <th>Address</th>
+                        <th>Booking Date</th>
+                        <th>Problem</th>
+                        <th>Visited Before</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Booking request rows will be inserted here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const noRequestsMessage = document.getElementById('no-requests-message');
+            const bookingRequestsTable = document.getElementById('booking-requests-table');
+            const tableBody = bookingRequestsTable.querySelector('tbody');
+            const acceptModal = document.getElementById('acceptModal');
+            const closeSpan = document.getElementsByClassName('close')[0];
+            const confirmAcceptBtn = document.getElementById('confirmAcceptBtn');
+            let currentRequestId = null;
+
+            function renderBookingRequests() {
+                let bookingRequests = JSON.parse(localStorage.getItem('bookingRequests')) || [];
+                tableBody.innerHTML = ''; // Clear existing rows
+
+                if (bookingRequests.length === 0) {
+                    noRequestsMessage.style.display = 'block';
+                    bookingRequestsTable.style.display = 'none';
+                } else {
+                    noRequestsMessage.style.display = 'none';
+                    bookingRequestsTable.style.display = 'table';
+                    bookingRequests.forEach(request => {
+                        const row = tableBody.insertRow();
+                        row.insertCell().textContent = request.name;
+                        row.insertCell().textContent = request.age;
+                        row.insertCell().textContent = request.phone;
+                        row.insertCell().textContent = request.gender;
+                        row.insertCell().textContent = request.address;
+                        row.insertCell().textContent = request.date;
+                        row.insertCell().textContent = request.problem;
+                        row.insertCell().textContent = request.visited;
+                        row.insertCell().textContent = request.status;
+
+                        const actionCell = row.insertCell();
+                        if (request.status === 'pending') {
+                            const acceptButton = document.createElement('button');
+                            acceptButton.textContent = 'Accept';
+                            acceptButton.classList.add('action-btn');
+                            acceptButton.dataset.requestId = request.id;
+                            acceptButton.dataset.action = 'accept';
+                            actionCell.appendChild(acceptButton);
+                        } else {
+                            actionCell.textContent = 'Accepted'; // Or 'Rejected' if that functionality is added later
+                        }
+                    });
+                }
+            }
+
+            // Initial render
+            renderBookingRequests();
+
+            // Handle Accept button click to open modal
+            bookingRequestsTable.addEventListener('click', function(event) {
+                if (event.target.classList.contains('action-btn') && event.target.dataset.action === 'accept') {
+                    currentRequestId = parseInt(event.target.dataset.requestId);
+                    acceptModal.style.display = 'block';
+                }
+            });
+
+            // Close modal events
+            closeSpan.onclick = function() {
+                acceptModal.style.display = 'none';
+            }
+
+            window.onclick = function(event) {
+                if (event.target == acceptModal) {
+                    acceptModal.style.display = 'none';
+                }
+            }
+
+            // Confirm Accept in modal
+            confirmAcceptBtn.onclick = function() {
+                const assignedTime = document.getElementById('assignedTime').value;
+                const assignedSlot = document.getElementById('assignedSlot').value;
+                const patientCategory = document.getElementById('patientCategory').value; // Get the category value
+
+                if (!assignedTime || !assignedSlot || !patientCategory) { // Validate all fields
+                    alert('Please enter time, slot, and category.');
+                    return;
+                }
+
+                let bookingRequests = JSON.parse(localStorage.getItem('bookingRequests')) || [];
+                
+                const requestToUpdate = bookingRequests.find(request => request.id === currentRequestId);
+                if (requestToUpdate) {
+                    requestToUpdate.status = 'accepted';
+                    requestToUpdate.time = assignedTime;
+                    requestToUpdate.slot = assignedSlot;
+                    requestToUpdate.category = patientCategory; // Add the category to the request
+                    localStorage.setItem('bookingRequests', JSON.stringify(bookingRequests));
+
+                    // Also add the accepted patient to the main patients list
+                    let patients = JSON.parse(localStorage.getItem('patients')) || [];
+                    // Remove the status property as it's not needed in the main patients list
+                    const { status, ...acceptedPatientDetails } = requestToUpdate; 
+                    patients.push(acceptedPatientDetails);
+                    localStorage.setItem('patients', JSON.stringify(patients));
+                }
+                
+                acceptModal.style.display = 'none';
+                document.getElementById('assignTimeForm').reset();
+                renderBookingRequests(); // Re-render the table after action
+            }
+        });
+    </script>
+
+    <!-- The Modal -->
+    <div id="acceptModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Assign Time and Slot</h2>
+            <form id="assignTimeForm">
+                <div class="form-group">
+                    <label for="assignedTime">Assigned Time:</label>
+                    <input type="time" id="assignedTime" required>
+                </div>
+                <div class="form-group">
+                    <label for="assignedSlot">Assigned Slot:</label>
+                    <input type="text" id="assignedSlot" placeholder="e.g., Slot A, Room 101" required>
+                </div>
+                <div class="form-group">
+                    <label for="patientCategory">Category:</label>
+                    <input type="text" id="patientCategory" placeholder="e.g., General, Emergency, Specialist" required>
+                </div>
+                <button type="button" id="confirmAcceptBtn" class="action-btn">Confirm Acceptance</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

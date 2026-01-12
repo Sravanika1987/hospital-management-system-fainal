@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Patients</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="view_patients.css">
+</head>
+<body>
+
+    <header class="top-header">
+        <a href="connected pages(index).html" class="dashboard-link">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="receptionist_dashboard.html" class="dashboard-link">
+            <i class="fas fa-arrow-left"></i>
+            <span>Back to Dashboard</span>
+        </a>
+        <a href="#" class="dashboard-link">
+            <i class="fas fa-phone"></i>
+            <span>Help</span>
+        </a>
+    </header>
+
+    <div class="bg-image"></div>
+    <div class="overlay"></div>
+
+    <h1 id="page-heading" class="glowing-heading top-heading">Patients to Check!</h1>
+
+    <div class="glass-table-container">
+        <div class="glass-table">
+            <p id="no-patients-message" style="display: none;">Patients not found!</p>
+            <table id="patients-table" style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Contact</th>
+                        <th>Gender</th>
+                        <th>Address</th>
+                        <th>Booking Date</th>
+                        <th>Problem</th>
+                        <th>Visited Before</th>
+                        <th>Category</th>
+                        <th>Actions</th> <!-- For the remove button -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Patient rows will be inserted here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const noPatientsMessage = document.getElementById('no-patients-message');
+            const patientsTable = document.getElementById('patients-table');
+            const tableBody = patientsTable.querySelector('tbody');
+
+            function renderPatients() {
+                let patients = JSON.parse(localStorage.getItem('patients')) || [];
+                tableBody.innerHTML = ''; // Clear existing rows
+
+                if (patients.length === 0) {
+                    noPatientsMessage.style.display = 'block';
+                    patientsTable.style.display = 'none';
+                } else {
+                    noPatientsMessage.style.display = 'none';
+                    patientsTable.style.display = 'table';
+                    patients.forEach(patient => {
+                        const row = tableBody.insertRow();
+                        row.insertCell().textContent = patient.name;
+                        row.insertCell().textContent = patient.age;
+                        row.insertCell().textContent = patient.phone;
+                        row.insertCell().textContent = patient.gender;
+                        row.insertCell().textContent = patient.address;
+                        row.insertCell().textContent = patient.date;
+                        row.insertCell().textContent = patient.problem;
+                        row.insertCell().textContent = patient.visited;
+                        row.insertCell().textContent = patient.category || 'N/A'; // Display category or N/A if not set
+                        const actionCell = row.insertCell();
+                        const removeButton = document.createElement('button');
+                        removeButton.textContent = 'Remove';
+                        removeButton.classList.add('remove-btn'); // Add a class for styling and event delegation
+                        removeButton.dataset.patientId = patient.id; // Store patient ID for removal
+                        actionCell.appendChild(removeButton);
+                    });
+                }
+            }
+
+            // Initial render
+            renderPatients();
+
+            // Add event listener for remove buttons using event delegation
+            patientsTable.addEventListener('click', function(event) {
+                if (event.target.classList.contains('remove-btn')) {
+                    const patientIdToRemove = parseInt(event.target.dataset.patientId);
+                    let patients = JSON.parse(localStorage.getItem('patients')) || [];
+                    patients = patients.filter(patient => patient.id !== patientIdToRemove);
+                    localStorage.setItem('patients', JSON.stringify(patients));
+                    renderPatients(); // Re-render the table after removal
+                }
+            });
+        });
+    </script>
+</body>
+</html>

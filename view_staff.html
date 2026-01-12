@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Staff - Admin Panel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="view_staff.css">
+</head>
+<body>
+
+    <div class="background-image-wrapper">
+        <img src="images/uu1.jpg" alt="Admin Background">
+    </div>
+    <div class="overlay"></div>
+
+    <header class="top-header">
+        <a href="admin_dashboard.html" class="header-link">
+            <i class="fas fa-arrow-left"></i>
+            <span>Back to Dashboard</span>
+        </a>
+        <a href="#" class="header-link">
+            <i class="fas fa-phone"></i>
+            <span>Help</span>
+        </a>
+    </header>
+
+    <div class="main-container">
+        <h1 class="main-title">View Staff!</h1>
+
+        <div class="glass-table-container">
+            <div class="glass-table">
+                <p id="no-staff-message" style="display: none;">No staff found!</p>
+                <table id="staff-table" style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>ID</th>
+                            <th>Role</th>
+                            <th>Aadhar ID</th>
+                            <th>Phone</th>
+                            <th>Address</th>
+                            <th>Gender</th>
+                            <th>Age</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Staff rows will be inserted here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const noStaffMessage = document.getElementById('no-staff-message');
+            const staffTable = document.getElementById('staff-table');
+            const tableBody = staffTable.querySelector('tbody');
+
+            function renderStaff() {
+                let staffList = JSON.parse(localStorage.getItem('staff')) || [];
+                tableBody.innerHTML = ''; // Clear existing rows
+
+                if (staffList.length === 0) {
+                    noStaffMessage.style.display = 'block';
+                    staffTable.style.display = 'none';
+                } else {
+                    noStaffMessage.style.display = 'none';
+                    staffTable.style.display = 'table';
+                    staffList.forEach(staff => {
+                        const row = tableBody.insertRow();
+                        row.insertCell().textContent = staff.name;
+                        row.insertCell().textContent = staff.id;
+                        row.insertCell().textContent = staff.role;
+                        row.insertCell().textContent = staff.aadhar;
+                        row.insertCell().textContent = staff.phone;
+                        row.insertCell().textContent = staff.address;
+                        row.insertCell().textContent = staff.gender;
+                        row.insertCell().textContent = staff.age;
+
+                        const actionCell = row.insertCell();
+                        const removeButton = document.createElement('button');
+                        removeButton.textContent = 'Remove';
+                        removeButton.classList.add('action-btn'); // Reuse action-btn class
+                        removeButton.dataset.staffId = staff.id; // Store staff ID for removal
+                        actionCell.appendChild(removeButton);
+                    });
+                }
+            }
+
+            // Initial render
+            renderStaff();
+
+            // Add event listener for remove buttons using event delegation
+            staffTable.addEventListener('click', function(event) {
+                if (event.target.classList.contains('action-btn')) {
+                    const staffIdToRemove = event.target.dataset.staffId;
+                    let staffList = JSON.parse(localStorage.getItem('staff')) || [];
+                    staffList = staffList.filter(staff => staff.id !== staffIdToRemove);
+                    localStorage.setItem('staff', JSON.stringify(staffList));
+                    renderStaff(); // Re-render the table after removal
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

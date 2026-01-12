@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Doctor - Admin Panel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="add_doctor.css">
+</head>
+<body>
+
+    <div class="background-image-wrapper">
+        <img src="images/doc1.jpg" alt="Admin Background">
+    </div>
+    <div class="overlay"></div>
+
+    <header class="top-header">
+        <a href="admin_dashboard.html" class="header-link">
+            <i class="fas fa-arrow-left"></i>
+            <span>Back to Dashboard</span>
+        </a>
+        <a href="view_doctors.html" class="header-link">
+            <i class="fas fa-user-md"></i>
+            <span>View Doctors</span>
+        </a>
+        <a href="#" class="header-link">
+            <i class="fas fa-phone"></i>
+            <span>Help</span>
+        </a>
+    </header>
+
+    <div class="main-container">
+        <h1 class="main-title">Add New Doctor!</h1>
+
+        <div class="form-container">
+            <form id="add-doctor-form">
+                <div class="form-group">
+                    <label for="doctorName">Doctor Name</label>
+                    <input type="text" id="doctorName" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="doctorId">Doctor ID</label>
+                    <input type="text" id="doctorId" name="id" required>
+                </div>
+                <div class="form-group">
+                    <label for="doctorRole">Role</label>
+                    <input type="text" id="doctorRole" name="role" required>
+                </div>
+                <div class="form-group">
+                    <label for="doctorCategory">Category</label>
+                    <input type="text" id="doctorCategory" name="category" required>
+                </div>
+                <div class="form-group">
+                    <label for="doctorAddress">Address</label>
+                    <textarea id="doctorAddress" name="address" rows="2" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="doctorPhone">Phone Number</label>
+                    <input type="tel" id="doctorPhone" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="doctorAltPhone">Alternate Phone Number</label>
+                    <input type="tel" id="doctorAltPhone" name="altPhone">
+                </div>
+                <div class="form-group">
+                    <label for="doctorAadhar">Aadhar ID</label>
+                    <input type="text" id="doctorAadhar" name="aadhar" required>
+                </div>
+                <div class="form-group">
+                    <label for="doctorSalary">Salary</label>
+                    <input type="number" id="doctorSalary" name="salary" required min="0">
+                </div>
+                <div class="form-group">
+                    <label for="doctorExperience">Work Experience (Years)</label>
+                    <input type="number" id="doctorExperience" name="experience" required min="0">
+                </div>
+                <div class="form-group">
+                    <label for="doctorPassword">Password (for Login)</label>
+                    <input type="password" id="doctorPassword" name="password" required>
+                </div>
+                <button type="submit" class="submit-btn">Add Doctor</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('add-doctor-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const form = event.target;
+            const doctor = {
+                name: form.doctorName.value,
+                id: form.doctorId.value,
+                role: form.doctorRole.value,
+                category: form.doctorCategory.value,
+                address: form.doctorAddress.value,
+                phone: form.doctorPhone.value,
+                altPhone: form.doctorAltPhone.value,
+                aadhar: form.doctorAadhar.value,
+                salary: form.doctorSalary.value,
+                experience: form.doctorExperience.value,
+                password: form.doctorPassword.value // Store password for login
+            };
+
+            let doctors = JSON.parse(localStorage.getItem('doctors')) || [];
+            doctors.push(doctor);
+            localStorage.setItem('doctors', JSON.stringify(doctors));
+
+            alert('Doctor added successfully!');
+            form.reset(); // Clear form
+            window.location.href = 'admin_dashboard.html'; // Redirect back to dashboard
+        });
+    </script>
+
+</body>
+</html>

@@ -21,7 +21,15 @@
             <i class="fas fa-phone"></i>
             <span>Help</span>
         </a>
-        <a href="#" class="dashboard-link" style="margin-left: auto;">
+        <a href="view_doctors.html" class="dashboard-link">
+            <i class="fas fa-user-md"></i>
+            <span>View Doctors</span>
+        </a>
+        <a href="view_staff.html" class="dashboard-link" style="margin-left: auto;">
+            <i class="fas fa-users"></i>
+            <span>View Staff</span>
+        </a>
+        <a href="#" class="dashboard-link">
             <i class="fas fa-sync-alt"></i>
             <span>Reset</span>
         </a>
@@ -35,37 +43,58 @@
     <div class="main-container">
         <div class="dashboard-options">
             <div class="glass-card">
-                <a href="#" class="card-link-content">
-                    <img src="file:///C:/Users/SRAVANIKA/Downloads/d1.jpg" alt="Add Doctors" class="card-image">
+                <a href="add_doctor.html" class="card-link-content">
+                    <img src="images/d1.jpg" alt="Add Doctors" class="card-image">
                     <span class="card-option-text">Add Doctors</span>
                 </a>
             </div>
             <div class="glass-card">
-                <a href="#" class="card-link-content">
-                    <img src="file:///C:/Users/SRAVANIKA/Downloads/s1.jpg" alt="Add Staff" class="card-image">
+                <a href="add_staff.html" class="card-link-content">
+                    <img src="images/st1.jpg" alt="Add Staff" class="card-image">
                     <span class="card-option-text">Add Staff</span>
                 </a>
             </div>
             <div class="glass-card">
-                <a href="#" class="card-link-content">
-                    <img src="file:///C:/Users/SRAVANIKA/Downloads/p2.webp" alt="View Workloads" class="card-image">
+                <a href="view_workloads.html" class="card-link-content">
+                    <img src="images/p2.webp" alt="View Workloads" class="card-image">
                     <span class="card-option-text">View Workloads</span>
                 </a>
             </div>
             <div class="glass-card">
-                <a href="#" class="card-link-content">
-                    <img src="file:///C:/Users/SRAVANIKA/Downloads/patient%203.jpeg" alt="View Patients" class="card-image">
+                <a href="view_patients_admin.html" class="card-link-content">
+                    <img src="images/patient 3.jpeg" alt="View Patients" class="card-image">
                     <span class="card-option-text">View Patients</span>
                 </a>
             </div>
             <div class="glass-card">
                 <a href="#" class="card-link-content">
-                    <img src="file:///C:/Users/SRAVANIKA/Downloads/log1.jpg" alt="Logout" class="card-image">
+                    <img src="images/log1.jpg" alt="Logout" class="card-image">
                     <span class="card-option-text logout">Logout</span>
                 </a>
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check login status
+            const isAdminLoggedIn = localStorage.getItem('isAdminLoggedIn');
+            if (isAdminLoggedIn !== 'true') {
+                window.location.href = 'admin_login.html';
+                return;
+            }
+
+            // Logout functionality
+            const logoutCard = document.querySelector('.glass-card a[href="#"][alt="Logout"]'); // Select the logout link
+            if (logoutCard) {
+                logoutCard.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    localStorage.removeItem('isAdminLoggedIn'); // Clear login flag
+                    window.location.href = 'admin_login.html'; // Redirect to login page
+                });
+            }
+        });
+    </script>
 
 </body>
 </html>

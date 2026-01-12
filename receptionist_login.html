@@ -31,7 +31,7 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background-image: url('file:///C:/Users/SRAVANIKA/Downloads/receptionist%201.jpeg');
+            background-image: url('images/receptionist 1.jpeg');
             background-size: cover;
             background-position: top;
             filter: blur(5px);
@@ -198,14 +198,10 @@
     <h1>Receptionist Login!</h1>
 
     <div class="glass-card">
-        <form action="#">
+        <form id="login-form">
             <div class="input-group">
-                <input type="text" id="name" required>
-                <label for="name">Enter Name</label>
-            </div>
-            <div class="input-group">
-                <input type="text" id="job-id" required>
-                <label for="job-id">Enter Receptionist ID</label>
+                <input type="text" id="username" required>
+                <label for="username">Enter Receptionist ID</label>
             </div>
             <div class="input-group">
                 <input type="password" id="password" required>
@@ -214,6 +210,14 @@
             <button type="submit" class="submit-btn">Submit</button>
         </form>
     </div>
+
+    <script>
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            // Redirect to the receptionist dashboard directly, bypassing backend validation
+            window.location.href = 'receptionist_dashboard.html';
+        });
+    </script>
 
 </body>
 </html>

@@ -1,0 +1,230 @@
+/* General Styling */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    min-height: 100vh;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 80px; /* Adjust for fixed header */
+    overflow-x: hidden;
+}
+
+.background-image-wrapper {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -2;
+}
+
+.background-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.8) blur(2px);
+}
+
+.overlay {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 10, 20, 0.6);
+    z-index: -1;
+}
+
+.top-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 15px 30px;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.header-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.1em;
+    font-weight: 500;
+    text-shadow: 0 0 8px rgba(0, 0, 0, 0.7);
+    transition: all 0.3s ease;
+}
+
+.header-link:hover {
+    color: #00e6e6;
+    text-shadow: 0 0 12px #00e6e6;
+    transform: scale(1.05);
+}
+
+.header-link i, .header-link svg {
+    width: 1.4em;
+    height: 1.4em;
+}
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    padding: 100px 20px 50px; /* Adjusted padding for header */
+    position: relative;
+    z-index: 1;
+}
+
+.main-title {
+    font-size: 3em;
+    font-weight: 700;
+    margin-bottom: 40px;
+    color: #fff;
+    text-shadow: 0 0 3px #fff, 0 0 5px #fff, 0 0 8px #00e6e6; /* Reduced glowness */
+    text-align: center;
+}
+
+/* Main container for workload cards */
+.workload-cards-container {
+    display: flex;
+    flex-direction: column; /* Arrange cards vertically */
+    align-items: center; /* Center cards horizontally */
+    gap: 20px; /* Space between category cards */
+    padding: 20px;
+    width: 100%;
+    max-width: 800px; /* A reasonable max-width for stacked cards */
+    margin-top: 20px;
+}
+
+/* Individual Glass Card for Each Category */
+.category-workload-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 100%; /* Take full width of its container */
+    max-width: 600px; /* Max width for individual cards in stack */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.category-workload-card h2 {
+    font-size: 1.4em;
+    margin-bottom: 15px;
+    color: #00e6e6;
+    text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+    text-align: center;
+}
+
+.no-doctors-msg {
+    font-size: 1em;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 10px 0;
+    text-align: center;
+}
+
+/* Table styling within category cards */
+.workload-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 0.9em;
+}
+
+.workload-table th,
+.workload-table td {
+    padding: 8px 5px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: left;
+    color: #fff;
+    text-shadow: 0 0 3px rgba(0, 255, 255, 0.2);
+}
+
+.workload-table th {
+    background-color: rgba(255, 255, 255, 0.05);
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.workload-table tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+.category-select {
+    padding: 5px;
+    border-radius: 3px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background-color: rgba(0, 0, 0, 0.3);
+    color: #fff;
+    font-size: 0.9em;
+    cursor: pointer;
+    margin-right: 5px;
+    appearance: none; /* Remove default dropdown arrow */
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23ffffff%22%20d%3D%22M287%20114.3L154.3%20247.1c-2.7%202.7-6.5%204.4-10.8%204.4s-8.1-1.6-10.8-4.4L5.4%20114.3c-7.1-7.1-7.1-18.6%200-25.7s18.6-7.1%2025.7%200l114.7%20114.7L261.3%2088.6c7.1-7.1%2018.6-7.1%2025.7%200s7.1%2018.6%200%2025.7z%22%2F%3E%3C%2Fsvg%3E');
+    background-repeat: no-repeat;
+    background-position: right 8px top 50%;
+    background-size: 0.65em auto;
+}
+
+.category-select:focus {
+    outline: none;
+    border-color: #00e6e6;
+    box-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+}
+
+.save-category-btn {
+    background-color: #00b3b3;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-size: 0.8em;
+}
+
+.save-category-btn:hover {
+    background-color: #00e6e6;
+    transform: scale(1.05);
+}
+
+/* No responsive adjustments needed for vertical stacking unless specific card widths are desired */
+@media (max-width: 1400px) {
+    .category-workload-card {
+        max-width: 600px; /* Maintain consistent max-width for stacked cards */
+    }
+}
+
+@media (max-width: 1000px) {
+    .category-workload-card {
+        max-width: 600px;
+    }
+}
+
+@media (max-width: 600px) {
+    .category-workload-card {
+        max-width: 100%; /* Allow smaller screens to expand fully */
+    }
+}

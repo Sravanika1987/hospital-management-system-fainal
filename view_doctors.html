@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Doctors - Admin Panel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="view_doctors.css">
+</head>
+<body>
+
+    <div class="background-image-wrapper">
+        <img src="images/uu1.jpg" alt="Admin Background">
+    </div>
+    <div class="overlay"></div>
+
+    <header class="top-header">
+        <a href="admin_dashboard.html" class="header-link">
+            <i class="fas fa-arrow-left"></i>
+            <span>Back to Dashboard</span>
+        </a>
+        <a href="#" class="header-link">
+            <i class="fas fa-phone"></i>
+            <span>Help</span>
+        </a>
+    </header>
+
+    <div class="main-container">
+        <h1 class="main-title">View Doctors!</h1>
+
+        <div class="glass-table-container">
+            <div class="glass-table">
+                <p id="no-doctors-message" style="display: none;">No doctors found!</p>
+                <table id="doctors-table" style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>ID</th>
+                            <th>Role</th>
+                            <th>Category</th>
+                            <th>Address</th>
+                            <th>Phone</th>
+                            <th>Alt. Phone</th>
+                            <th>Aadhar ID</th>
+                            <th>Salary</th>
+                            <th>Experience</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Doctor rows will be inserted here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const noDoctorsMessage = document.getElementById('no-doctors-message');
+            const doctorsTable = document.getElementById('doctors-table');
+            const tableBody = doctorsTable.querySelector('tbody');
+
+            function renderDoctors() {
+                let doctors = JSON.parse(localStorage.getItem('doctors')) || [];
+                tableBody.innerHTML = ''; // Clear existing rows
+
+                if (doctors.length === 0) {
+                    noDoctorsMessage.style.display = 'block';
+                    doctorsTable.style.display = 'none';
+                } else {
+                    noDoctorsMessage.style.display = 'none';
+                    doctorsTable.style.display = 'table';
+                    doctors.forEach(doctor => {
+                        const row = tableBody.insertRow();
+                        row.insertCell().textContent = doctor.name;
+                        row.insertCell().textContent = doctor.id;
+                        row.insertCell().textContent = doctor.role;
+                        row.insertCell().textContent = doctor.category;
+                        row.insertCell().textContent = doctor.address;
+                        row.insertCell().textContent = doctor.phone;
+                        row.insertCell().textContent = doctor.altPhone || 'N/A';
+                        row.insertCell().textContent = doctor.aadhar;
+                        row.insertCell().textContent = doctor.salary;
+                        row.insertCell().textContent = doctor.experience;
+
+                        const actionCell = row.insertCell();
+                        const removeButton = document.createElement('button');
+                        removeButton.textContent = 'Remove';
+                        removeButton.classList.add('action-btn'); // Reuse action-btn class
+                        removeButton.dataset.doctorId = doctor.id; // Store doctor ID for removal
+                        actionCell.appendChild(removeButton);
+                    });
+                }
+            }
+
+            // Initial render
+            renderDoctors();
+
+            // Add event listener for remove buttons using event delegation
+            doctorsTable.addEventListener('click', function(event) {
+                if (event.target.classList.contains('action-btn')) {
+                    const doctorIdToRemove = event.target.dataset.doctorId;
+                    let doctors = JSON.parse(localStorage.getItem('doctors')) || [];
+                    doctors = doctors.filter(doctor => doctor.id !== doctorIdToRemove);
+                    localStorage.setItem('doctors', JSON.stringify(doctors));
+                    renderDoctors(); // Re-render the table after removal
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

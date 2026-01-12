@@ -21,6 +21,10 @@
             <i class="fas fa-phone"></i>
             <span>Help</span>
         </a>
+        <a href="#" id="notification-btn" class="dashboard-link" style="margin-left: auto;">
+            <i class="fas fa-bell"></i>
+            <span>Notifications (<span id="notification-count">0</span>)</span>
+        </a>
     </header>
 
     <div class="bg-image"></div>
@@ -31,46 +35,165 @@
     <div class="main-container">
         <div class="dashboard-options">
             <div class="glass-card">
-                <a href="#" class="card-link-content">
-                    <img src="file:///C:/Users/SRAVANIKA/Downloads/pp1.jpg" alt="View Patients" class="card-image">
+                <a href="view_patients_doctor.html" class="card-link-content">
+                    <img src="images/pp1.jpg" alt="View Patients" class="card-image">
                     <span class="card-option-text">View Patients</span>
                 </a>
             </div>
             <div class="glass-card">
-                <a href="#" class="card-link-content">
-                    <img src="file:///C:/Users/SRAVANIKA/Downloads/pp.jpg" alt="View Appointments" class="card-image">
+                <a href="enter_category_for_appointments.html" class="card-link-content">
+                    <img src="images/pp.jpg" alt="View Appointments" class="card-image">
                     <span class="card-option-text">View Appointments</span>
                 </a>
             </div>
             <div class="glass-card">
-                <a href="#" class="card-link-content">
-                    <img src="file:///C:/Users/SRAVANIKA/Downloads/p1.jpg" alt="Prescribe Medication" class="card-image">
+                <a href="enter_category_for_medication.html" class="card-link-content">
+                    <img src="images/p1.jpg" alt="Prescribe Medication" class="card-image">
                     <span class="card-option-text">Prescribe Medication</span>
                 </a>
             </div>
+
             <div class="glass-card">
                 <a href="#" class="card-link-content">
-                    <img src="file:///C:/Users/SRAVANIKA/Downloads/ppp.jpg" alt="Merge" class="card-image">
-                    <span class="card-option-text">Merge</span>
-                </a>
-            </div>
-            <div class="glass-card">
-                <a href="#" class="card-link-content">
-                    <img src="file:///C:/Users/SRAVANIKA/Downloads/log1.jpg" alt="Logout" class="card-image">
+                    <img src="images/log1.jpg" alt="Logout" class="card-image">
                     <span class="card-option-text logout">Logout</span>
                 </a>
             </div>
         </div>
     </div>
 
+    <!-- Notification Modal -->
+    <div id="notificationModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Your Notifications</h2>
+            <div id="notification-list">
+                <!-- Notifications will be loaded here -->
+            </div>
+            <button id="clear-notifications-btn" class="action-btn">Clear All Read Notifications</button>
+        </div>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const doctorName = localStorage.getItem('doctorName');
-            const welcomeHeading = document.getElementById('welcome-heading');
+            // Check login status
+            const isDoctorLoggedIn = localStorage.getItem('isDoctorLoggedIn');
+            const loggedInDoctorId = localStorage.getItem('loggedInDoctorId');
 
-            if (doctorName) {
-                welcomeHeading.textContent = `Welcome DR. ${doctorName}!`;
+            if (isDoctorLoggedIn !== 'true' || !loggedInDoctorId) {
+                window.location.href = 'doctor_login.html';
+                return;
             }
+
+            // Personalize welcome message
+            const welcomeHeading = document.getElementById('welcome-heading');
+            const doctors = JSON.parse(localStorage.getItem('doctors')) || [];
+            const loggedInDoctor = doctors.find(doctor => doctor.id === loggedInDoctorId);
+
+            if (loggedInDoctor) {
+                welcomeHeading.textContent = `Welcome DR. ${loggedInDoctor.name}!`;
+            } else {
+                // Doctor not found, redirect to login
+                localStorage.removeItem('isDoctorLoggedIn');
+                localStorage.removeItem('loggedInDoctorId');
+                window.location.href = 'doctor_login.html';
+                return;
+            }
+
+            // Logout functionality
+            const logoutCard = document.querySelector('.glass-card a[href="#"][alt="Logout"]'); // Select the logout link
+            if (logoutCard) {
+                logoutCard.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    localStorage.removeItem('isDoctorLoggedIn'); // Clear login flag
+                    localStorage.removeItem('loggedInDoctorId'); // Clear doctor ID
+                    window.location.href = 'doctor_login.html'; // Redirect to login page
+                });
+            }
+
+            // Notification functionality
+            const notificationBtn = document.getElementById('notification-btn');
+            const notificationCountSpan = document.getElementById('notification-count');
+            const notificationModal = document.getElementById('notificationModal');
+            const notificationList = document.getElementById('notification-list');
+            const closeModalSpan = notificationModal.querySelector('.close');
+            const clearNotificationsBtn = document.getElementById('clear-notifications-btn');
+
+            function getNotifications() {
+                let allNotifications = JSON.parse(localStorage.getItem('doctorNotifications')) || [];
+                return allNotifications.filter(notif => notif.doctorId === loggedInDoctorId);
+            }
+
+            function updateNotificationCount() {
+                const notifications = getNotifications();
+                const unreadCount = notifications.filter(notif => !notif.read).length;
+                notificationCountSpan.textContent = unreadCount;
+                if (unreadCount > 0) {
+                    notificationCountSpan.style.color = '#00e6e6'; // Highlight unread
+                } else {
+                    notificationCountSpan.style.color = '#fff';
+                }
+            }
+
+            function renderNotifications() {
+                const notifications = getNotifications();
+                notificationList.innerHTML = ''; // Clear previous notifications
+
+                if (notifications.length === 0) {
+                    notificationList.innerHTML = '<p>No notifications.</p>';
+                } else {
+                    notifications.forEach(notif => {
+                        const notificationItem = document.createElement('div');
+                        notificationItem.classList.add('notification-item');
+                        if (!notif.read) {
+                            notificationItem.classList.add('unread');
+                        }
+                        notificationItem.innerHTML = `
+                            <p>${notif.message}</p>
+                            <small>${new Date(notif.timestamp).toLocaleString()}</small>
+                        `;
+                        notificationList.appendChild(notificationItem);
+                    });
+                }
+                updateNotificationCount();
+            }
+
+            // Open modal
+            notificationBtn.addEventListener('click', function(event) {
+                event.preventDefault();
+                notificationModal.style.display = 'block';
+                // Mark all current notifications as read when modal is opened
+                let allNotifications = JSON.parse(localStorage.getItem('doctorNotifications')) || [];
+                allNotifications = allNotifications.map(notif => {
+                    if (notif.doctorId === loggedInDoctorId && !notif.read) {
+                        return { ...notif, read: true };
+                    }
+                    return notif;
+                });
+                localStorage.setItem('doctorNotifications', JSON.stringify(allNotifications));
+                renderNotifications(); // Re-render to show them as read
+            });
+
+            // Close modal
+            closeModalSpan.onclick = function() {
+                notificationModal.style.display = 'none';
+            }
+            window.onclick = function(event) {
+                if (event.target == notificationModal) {
+                    notificationModal.style.display = 'none';
+                }
+            }
+
+            // Clear read notifications
+            clearNotificationsBtn.addEventListener('click', function() {
+                let allNotifications = JSON.parse(localStorage.getItem('doctorNotifications')) || [];
+                // Keep only unread notifications for this doctor, and all notifications for other doctors
+                allNotifications = allNotifications.filter(notif => notif.doctorId !== loggedInDoctorId || !notif.read);
+                localStorage.setItem('doctorNotifications', JSON.stringify(allNotifications));
+                renderNotifications();
+            });
+
+            updateNotificationCount(); // Initial count update
         });
     </script>
 

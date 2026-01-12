@@ -1,0 +1,183 @@
+/* General Styling */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    min-height: 100vh;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 80px; /* Adjust for fixed header */
+    overflow-x: hidden;
+}
+
+.background-image-wrapper {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -2;
+}
+
+.background-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.8) blur(2px);
+}
+
+.overlay {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 10, 20, 0.6);
+    z-index: -1;
+}
+
+.top-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 15px 30px;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.header-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.1em;
+    font-weight: 500;
+    text-shadow: 0 0 8px rgba(0, 0, 0, 0.7);
+    transition: all 0.3s ease;
+}
+
+.header-link:hover {
+    color: #00e6e6;
+    text-shadow: 0 0 12px #00e6e6;
+    transform: scale(1.05);
+}
+
+.header-link i, .header-link svg {
+    width: 1.4em;
+    height: 1.4em;
+}
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    padding: 100px 20px 50px; /* Adjusted padding for header */
+    position: relative;
+    z-index: 1;
+}
+
+.main-title {
+    font-size: 3em;
+    font-weight: 700;
+    margin-bottom: 40px;
+    color: #fff;
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #00e6e6, 0 0 30px #00e6e6, 0 0 40px #00e6e6;
+    text-align: center;
+}
+
+/* Glass Table Specific Styles */
+.glass-table-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: auto; /* Adjusted to allow content to dictate height */
+    padding: 20px;
+    box-sizing: border-box;
+    width: 100%; /* Ensure container takes full width */
+}
+
+.glass-table {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    padding: 30px; /* Slightly reduced padding for table */
+    text-align: left;
+    max-width: 1400px; /* Increased max-width for doctor details */
+    width: 100%;
+    min-height: 100px; /* Min height for no content */
+    color: rgba(255, 255, 255, 0.8);
+    overflow-x: auto; /* Enable horizontal scrolling for narrow screens */
+}
+
+.glass-table p {
+    margin: 0;
+    text-align: center;
+    font-size: 1.5em;
+}
+
+/* Table styling */
+#doctors-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 0.8em;
+}
+
+#doctors-table th,
+#doctors-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: left;
+    color: #fff;
+    text-shadow: 0 0 5px rgba(0, 255, 255, 0.3), 0 0 10px rgba(0, 255, 255, 0.2);
+}
+
+#doctors-table th {
+    background-color: rgba(255, 255, 255, 0.1);
+    font-weight: 600;
+    text-transform: uppercase;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+#doctors-table tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Action button styling */
+.action-btn {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-size: 0.85em;
+    margin: 2px;
+}
+
+.action-btn:hover {
+    background-color: #cc0000;
+    transform: scale(1.05);
+}
